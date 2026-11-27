@@ -1,13 +1,21 @@
 
-import express from "express"
+import app from "./app";
 
-const app = express()
-const port = 3000
+const PORT = Number(process.env.PORT) || 5000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const startServer = () => {
+  try {
+    const server = app.listen(PORT, () => {
+      console.log(`EventHive is running on port ${PORT}`);
+    });
 
-app.listen(port, () => {
-  console.log(` EventHive is Running on  ${port}`)
-})
+    server.on("error", (error) => {
+      console.error("Failed to start server:", error);
+    });
+
+  } catch (error) {
+    console.error("Failed to connect the server:", error);
+  }
+};
+
+startServer();
