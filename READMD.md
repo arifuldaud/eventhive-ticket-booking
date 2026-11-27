@@ -18,4 +18,4 @@ bcrypt
 
 JSON Web Token (JWT)
 
-Zod (Optional)
+Zod (Optional)?
