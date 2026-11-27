@@ -1,8 +1,11 @@
 
 import app from "./app";
 import { pool } from "./config/db";
+import { initDatabase } from "./config/initdb";
 
 const PORT = Number(process.env.PORT) || 5000;
+
+initDatabase();
 
 const startServer = async() => {
   try {
