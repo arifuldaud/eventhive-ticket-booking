@@ -1,6 +1,5 @@
 import { pool } from "./db";
 
-
 // users Table Create 
 const usersTableQuery =`
 CREATE TABLE IF NOT EXISTS users (
@@ -14,6 +13,7 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
 
+//Events Table Create
 const eventsTableQuery =`
 CREATE TABLE IF NOT EXISTS events (
 id SERIAL PRIMARY KEY,
@@ -34,30 +34,20 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
 
-
+// bookings Table Create
 
 const bookingsTableQuery =`
 CREATE TABLE IF NOT EXISTS bookings (
 id SERIAL PRIMARY KEY,
 event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
 attendee_id INTEGER NOT NULL REFERENCES users(id),
-
 tickets_booked INTEGER NOT NULL CHECK (tickets_booked > 0),
-
 status VARCHAR(25) NOT NULL DEFAULT 'confirmed'
 CHECK (status IN ('confirmed', 'cancelled')),
-
 total_price NUMERIC(10,2) NOT NULL ,
-
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
-
-
-
-
-
-
 
 export const initDatabase = async() =>{
 

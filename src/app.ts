@@ -1,6 +1,7 @@
 import express from "express";
 
 import cors from "cors";
+import authRouter from "./modules/auth/auth.route";
 
 const app = express();
 app.use(cors({
@@ -17,7 +18,7 @@ app.get("/", (req, res) => {
   });
 });
 
-
+app.use("/api/v1/auth",authRouter);
 
 
 export default app;
