@@ -1,10 +1,15 @@
 
 import app from "./app";
+import { pool } from "./config/db";
 
 const PORT = Number(process.env.PORT) || 5000;
 
-const startServer = () => {
+const startServer = async() => {
   try {
+
+   const time = await pool.query("SELECT NOW()");
+ console.log("Database is connected Successfully On:", time.rows[0]);
+
     const server = app.listen(PORT, () => {
       console.log(`EventHive is running on port ${PORT}`);
     });
