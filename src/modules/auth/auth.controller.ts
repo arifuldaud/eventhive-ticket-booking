@@ -1,33 +1,30 @@
 import { RequestHandler } from "express";
-
 import { passwordHelpers } from "../../utils/passwordHelpers";
 import { pool } from "../../config/db";
+import { authservice } from "./auth.service";
+import AppError from "../../utils/AppError";
+import { signupValidationSchema } from "./auth.validation";
 
 const signup:RequestHandler = async(req,res,next) =>{
 
 try {
+    
+    const validation =signupValidationSchema.safeParse(req.body);
+
+    if(!validation.success) {
+        throw new AppError("Validation Error", 400);
+    }
+
+
+
     const { name, email, password, role = "attendee" } = req.body;
 
- const hashedPassword = await passwordHelpers.hashPassword(password);
-
-const result = await pool.query(
-    `INSERT INTO users (name, email, password, role)
-     VALUES ($1, $2, $3, $4)
-     RETURNING *`,
-    [name, email, hashedPassword, role]
-);
+ const result = await authservice.signup(req.body);
 
     res.status(201).json({
     success: true,
     message: "User registered successfully",
-    data: {
-        id: result.rows[0].id,
-        name: result.rows[0].name,
-        email: result.rows[0].email,
-        role: result.rows[0].role,
-        created_at: result.rows[0].created_at,
-        updated_at: result.rows[0].updated_at
-    }
+    data: result,
   
 });
 
