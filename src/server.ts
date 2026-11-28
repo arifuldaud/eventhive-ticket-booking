@@ -2,7 +2,7 @@
 import app from "./app";
 import { pool } from "./config/db";
 import { initDatabase } from "./config/initdb";
-
+import { jwtHeplers } from "./utils/jwtHelpers";
 const PORT = Number(process.env.PORT) || 5000;
 
 initDatabase();
