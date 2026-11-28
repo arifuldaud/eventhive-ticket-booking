@@ -3,6 +3,10 @@ import { passwordHelpers } from "../../utils/passwordHelpers";
 import { authRepository } from "./auth.repository";
 import { IUser } from "./auth.interface";
 import AppError from "../../utils/AppError";
+import { email } from "zod";
+import { pool } from "../../config/db";
+import { jwtHeplers } from '../../utils/jwtHelpers';
+import { userInfo } from "node:os";
 
 const signup = async (payload: IUser) => {
 
@@ -27,5 +31,42 @@ const signup = async (payload: IUser) => {
     return user;
 };
 
+const login = async (email: string, password: string) => {
+
+    const user = await authRepository.findUserByEmail(email);
+
+    if (!user) {
+        throw new AppError("Invalid email or password", 401);
+    }
+
+    const isPasswordMatched = await passwordHelpers.compareHash(
+        password,
+        user.password
+    );
+
+    if (!isPasswordMatched) {
+        throw new AppError("Invalid email or password", 401);
+    }
+
+  const token =jwtHeplers.generateToken(
+    {
+    id: user.id,
+    role: user.role
+    });
+
+return {
+    token,
+    user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+    }
+};
+
+};
+
+
+
 export const authservice = {
-    signup,}
+    signup,login}
