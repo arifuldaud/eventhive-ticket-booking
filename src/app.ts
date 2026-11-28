@@ -4,6 +4,7 @@ import cors from "cors";
 import authRouter from "./modules/auth/auth.route";
 import errorMiddleware from "./middleware/error.middleware";
 import { authmiddleware } from "./middleware/auth.middleware";
+import eventRouter from "./modules/event/event.route";
 
 const app = express();
 app.use(cors({
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth",authRouter);
+app.use("/api/v1/events",eventRouter);
+
 
 // Temporarry 
 app.get(

@@ -23,7 +23,6 @@ category VARCHAR(40) NOT NULL,
 date TIMESTAMP NOT NULL,
 location VARCHAR(100) NOT NULL,
 total_seats INTEGER NOT NULL CHECK (total_seats > 0),
-
 available_seats INTEGER NOT NULL CHECK (available_seats >= 0 AND
 (available_seats <= total_seats)), 
 price NUMERIC(10,2) NOT NULL CHECK(price>=0),
@@ -49,8 +48,13 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
 
-export const initDatabase = async() =>{
-
+export const initDatabase = async () => {
     await pool.query(usersTableQuery);
-    console.log("Database Table is Created");
+    console.log("Users Table is Created");
+
+    await pool.query(eventsTableQuery);
+    console.log("Events Table is Created");
+
+    await pool.query(bookingsTableQuery);
+    console.log("Bookings Table is Created");
 };

@@ -18,6 +18,5 @@ const verifyToken =(token:string) => {
 
 
 export const jwtHeplers ={
-    generateToken,verifyToken, generateInvalidRoleToken,
-    generateInvalidIdToken
+    generateToken,verifyToken, 
 };
